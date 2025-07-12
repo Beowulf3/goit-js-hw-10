@@ -1,5 +1,8 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+import icon from '../images/xmark.png';
 
 const button = document.querySelector('.timer-btn');
 const timerDays = document.querySelector('.value[data-days]');
@@ -19,8 +22,17 @@ const options = {
   onClose(selectedDates) {
     userSelectedDate = selectedDates[0];
     if (userSelectedDate < Date.now()) {
-      alert('Please choose a date in the future');
-      button.disabled = true;
+      iziToast.error({
+        position: 'topRight',
+        title: 'Error',
+        titleColor: '#fff',
+        message: 'Please choose a date in the future',
+        messageColor: '#fff',
+        backgroundColor: '#ef4040',
+        closeOnEscape: true,
+        iconUrl: icon,
+        theme: 'dark',
+      });
     } else {
       button.disabled = false;
     }
@@ -54,17 +66,27 @@ function addLeadingZero(value) {
 button.addEventListener('click', () => {
   button.disabled = true;
   input.disabled = true;
+  timerDays.textContent = addLeadingZero(
+    convertMs(userSelectedDate - Date.now()).days
+  );
+  timerHours.textContent = addLeadingZero(
+    convertMs(userSelectedDate - Date.now()).hours
+  );
+  timerMinutes.textContent = addLeadingZero(
+    convertMs(userSelectedDate - Date.now()).minutes
+  );
+  timerSeconds.textContent = addLeadingZero(
+    convertMs(userSelectedDate - Date.now()).seconds
+  );
   const timerId = setInterval(() => {
     const rest = convertMs(userSelectedDate - Date.now());
     const { days, hours, minutes, seconds } = rest;
-
-    timerDays.textContent = addLeadingZero(rest.days);
-    timerHours.textContent = addLeadingZero(rest.hours);
-    timerMinutes.textContent = addLeadingZero(rest.minutes);
-    timerSeconds.textContent = addLeadingZero(rest.seconds);
+    timerDays.textContent = addLeadingZero(days);
+    timerHours.textContent = addLeadingZero(hours);
+    timerMinutes.textContent = addLeadingZero(minutes);
+    timerSeconds.textContent = addLeadingZero(seconds);
     if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
       clearInterval(timerId);
-      button.disabled = false;
       input.disabled = false;
     }
   }, 1000);
