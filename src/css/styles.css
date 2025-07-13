@@ -131,7 +131,7 @@
   margin-bottom: 16px;
 }
 
-.input-delay {
+input[name="delay"] {
   border: 1px solid #808080;
   border-radius: 4px;
   max-width: 360px;
@@ -139,13 +139,13 @@
   color: #2e2f42;
 }
 
-.input-delay:hover,
-.input-delay:focus {
+input[name="delay"]:hover,
+input[name="delay"]:focus {
   border: 1px solid #000;
   outline: none;
 }
 
-.input-delay:active {
+input[name="delay"]:active {
   border: 1px solid #4e75ff;
   outline: none;
 }

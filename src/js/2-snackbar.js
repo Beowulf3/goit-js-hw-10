@@ -5,21 +5,20 @@ import success from '../images/success.png';
 import xmark from '../images/xmark.png';
 
 const form = document.querySelector('.form');
-const input = document.querySelector('.input-delay');
-const fulfilled = document.querySelector('input[value="fulfilled"]');
-const rejected = document.querySelector('input[value="rejected"]');
+const input = document.querySelector('input[name="delay"]');
 
 const makePromise = delay => {
+  const selectedOption = document.querySelector(
+    'input[name="state"]:checked'
+  ).value;
   return new Promise((resolve, reject) => {
-    if (fulfilled.checked) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (selectedOption === 'fulfilled') {
         resolve(delay);
-      }, delay);
-    } else {
-      setTimeout(() => {
+      } else {
         reject(delay);
-      }, delay);
-    }
+      }
+    }, delay);
   });
 };
 

@@ -66,20 +66,13 @@ function addLeadingZero(value) {
 button.addEventListener('click', () => {
   button.disabled = true;
   input.disabled = true;
-  timerDays.textContent = addLeadingZero(
-    convertMs(userSelectedDate - Date.now()).days
-  );
-  timerHours.textContent = addLeadingZero(
-    convertMs(userSelectedDate - Date.now()).hours
-  );
-  timerMinutes.textContent = addLeadingZero(
-    convertMs(userSelectedDate - Date.now()).minutes
-  );
-  timerSeconds.textContent = addLeadingZero(
-    convertMs(userSelectedDate - Date.now()).seconds
-  );
+  const start = Date.now();
+  const totalTime = userSelectedDate - start;
+
   const timerId = setInterval(() => {
-    const rest = convertMs(userSelectedDate - Date.now());
+    const left = Date.now() - start;
+    const remaining = totalTime - left;
+    const rest = convertMs(remaining);
     const { days, hours, minutes, seconds } = rest;
     timerDays.textContent = addLeadingZero(days);
     timerHours.textContent = addLeadingZero(hours);
